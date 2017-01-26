@@ -1,1 +1,379 @@
 Created by PLY version 3.9 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> FORMULA
+Rule 1     FORMULA -> FORMULA IMPLIES FORMULA
+Rule 2     FORMULA -> FORMULA OR FORMULA
+Rule 3     FORMULA -> FORMULA AND FORMULA
+Rule 4     FORMULA -> NOT FORMULA
+Rule 5     FORMULA -> NOT TERM
+Rule 6     FORMULA -> LPAREN FORMULA RPAREN
+Rule 7     FORMULA -> TERM
+Rule 8     TERM -> ID LPAREN TERMLIST RPAREN
+Rule 9     TERM -> ID
+Rule 10    TERMLIST -> TERM COMMA TERMLIST
+Rule 11    TERMLIST -> TERM
+
+Terminals, with rules where they appear
+
+AND                  : 3
+COMMA                : 10
+ID                   : 8 9
+IMPLIES              : 1
+LPAREN               : 6 8
+NOT                  : 4 5
+OR                   : 2
+RPAREN               : 6 8
+error                : 
+
+Nonterminals, with rules where they appear
+
+FORMULA              : 1 1 2 2 3 3 4 6 0
+TERM                 : 5 7 10 11
+TERMLIST             : 8 10
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . FORMULA
+    (1) FORMULA -> . FORMULA IMPLIES FORMULA
+    (2) FORMULA -> . FORMULA OR FORMULA
+    (3) FORMULA -> . FORMULA AND FORMULA
+    (4) FORMULA -> . NOT FORMULA
+    (5) FORMULA -> . NOT TERM
+    (6) FORMULA -> . LPAREN FORMULA RPAREN
+    (7) FORMULA -> . TERM
+    (8) TERM -> . ID LPAREN TERMLIST RPAREN
+    (9) TERM -> . ID
+
+    NOT             shift and go to state 4
+    LPAREN          shift and go to state 3
+    ID              shift and go to state 2
+
+    FORMULA                        shift and go to state 5
+    TERM                           shift and go to state 1
+
+state 1
+
+    (7) FORMULA -> TERM .
+
+    RPAREN          reduce using rule 7 (FORMULA -> TERM .)
+    IMPLIES         reduce using rule 7 (FORMULA -> TERM .)
+    OR              reduce using rule 7 (FORMULA -> TERM .)
+    AND             reduce using rule 7 (FORMULA -> TERM .)
+    $end            reduce using rule 7 (FORMULA -> TERM .)
+
+
+state 2
+
+    (8) TERM -> ID . LPAREN TERMLIST RPAREN
+    (9) TERM -> ID .
+
+    LPAREN          shift and go to state 6
+    IMPLIES         reduce using rule 9 (TERM -> ID .)
+    OR              reduce using rule 9 (TERM -> ID .)
+    AND             reduce using rule 9 (TERM -> ID .)
+    $end            reduce using rule 9 (TERM -> ID .)
+    RPAREN          reduce using rule 9 (TERM -> ID .)
+    COMMA           reduce using rule 9 (TERM -> ID .)
+
+
+state 3
+
+    (6) FORMULA -> LPAREN . FORMULA RPAREN
+    (1) FORMULA -> . FORMULA IMPLIES FORMULA
+    (2) FORMULA -> . FORMULA OR FORMULA
+    (3) FORMULA -> . FORMULA AND FORMULA
+    (4) FORMULA -> . NOT FORMULA
+    (5) FORMULA -> . NOT TERM
+    (6) FORMULA -> . LPAREN FORMULA RPAREN
+    (7) FORMULA -> . TERM
+    (8) TERM -> . ID LPAREN TERMLIST RPAREN
+    (9) TERM -> . ID
+
+    NOT             shift and go to state 4
+    LPAREN          shift and go to state 3
+    ID              shift and go to state 2
+
+    FORMULA                        shift and go to state 7
+    TERM                           shift and go to state 1
+
+state 4
+
+    (4) FORMULA -> NOT . FORMULA
+    (5) FORMULA -> NOT . TERM
+    (1) FORMULA -> . FORMULA IMPLIES FORMULA
+    (2) FORMULA -> . FORMULA OR FORMULA
+    (3) FORMULA -> . FORMULA AND FORMULA
+    (4) FORMULA -> . NOT FORMULA
+    (5) FORMULA -> . NOT TERM
+    (6) FORMULA -> . LPAREN FORMULA RPAREN
+    (7) FORMULA -> . TERM
+    (8) TERM -> . ID LPAREN TERMLIST RPAREN
+    (9) TERM -> . ID
+
+    NOT             shift and go to state 4
+    LPAREN          shift and go to state 3
+    ID              shift and go to state 2
+
+    FORMULA                        shift and go to state 9
+    TERM                           shift and go to state 8
+
+state 5
+
+    (0) S' -> FORMULA .
+    (1) FORMULA -> FORMULA . IMPLIES FORMULA
+    (2) FORMULA -> FORMULA . OR FORMULA
+    (3) FORMULA -> FORMULA . AND FORMULA
+
+    IMPLIES         shift and go to state 11
+    OR              shift and go to state 12
+    AND             shift and go to state 10
+
+
+state 6
+
+    (8) TERM -> ID LPAREN . TERMLIST RPAREN
+    (10) TERMLIST -> . TERM COMMA TERMLIST
+    (11) TERMLIST -> . TERM
+    (8) TERM -> . ID LPAREN TERMLIST RPAREN
+    (9) TERM -> . ID
+
+    ID              shift and go to state 2
+
+    TERMLIST                       shift and go to state 13
+    TERM                           shift and go to state 14
+
+state 7
+
+    (6) FORMULA -> LPAREN FORMULA . RPAREN
+    (1) FORMULA -> FORMULA . IMPLIES FORMULA
+    (2) FORMULA -> FORMULA . OR FORMULA
+    (3) FORMULA -> FORMULA . AND FORMULA
+
+    RPAREN          shift and go to state 15
+    IMPLIES         shift and go to state 11
+    OR              shift and go to state 12
+    AND             shift and go to state 10
+
+
+state 8
+
+    (5) FORMULA -> NOT TERM .
+    (7) FORMULA -> TERM .
+
+  ! reduce/reduce conflict for IMPLIES resolved using rule 5 (FORMULA -> NOT TERM .)
+  ! reduce/reduce conflict for OR resolved using rule 5 (FORMULA -> NOT TERM .)
+  ! reduce/reduce conflict for AND resolved using rule 5 (FORMULA -> NOT TERM .)
+  ! reduce/reduce conflict for $end resolved using rule 5 (FORMULA -> NOT TERM .)
+  ! reduce/reduce conflict for RPAREN resolved using rule 5 (FORMULA -> NOT TERM .)
+    RPAREN          reduce using rule 5 (FORMULA -> NOT TERM .)
+    IMPLIES         reduce using rule 5 (FORMULA -> NOT TERM .)
+    OR              reduce using rule 5 (FORMULA -> NOT TERM .)
+    AND             reduce using rule 5 (FORMULA -> NOT TERM .)
+    $end            reduce using rule 5 (FORMULA -> NOT TERM .)
+
+  ! IMPLIES         [ reduce using rule 7 (FORMULA -> TERM .) ]
+  ! OR              [ reduce using rule 7 (FORMULA -> TERM .) ]
+  ! AND             [ reduce using rule 7 (FORMULA -> TERM .) ]
+  ! $end            [ reduce using rule 7 (FORMULA -> TERM .) ]
+  ! RPAREN          [ reduce using rule 7 (FORMULA -> TERM .) ]
+
+
+state 9
+
+    (4) FORMULA -> NOT FORMULA .
+    (1) FORMULA -> FORMULA . IMPLIES FORMULA
+    (2) FORMULA -> FORMULA . OR FORMULA
+    (3) FORMULA -> FORMULA . AND FORMULA
+
+    RPAREN          reduce using rule 4 (FORMULA -> NOT FORMULA .)
+    IMPLIES         reduce using rule 4 (FORMULA -> NOT FORMULA .)
+    OR              reduce using rule 4 (FORMULA -> NOT FORMULA .)
+    AND             reduce using rule 4 (FORMULA -> NOT FORMULA .)
+    $end            reduce using rule 4 (FORMULA -> NOT FORMULA .)
+
+  ! IMPLIES         [ shift and go to state 11 ]
+  ! OR              [ shift and go to state 12 ]
+  ! AND             [ shift and go to state 10 ]
+
+
+state 10
+
+    (3) FORMULA -> FORMULA AND . FORMULA
+    (1) FORMULA -> . FORMULA IMPLIES FORMULA
+    (2) FORMULA -> . FORMULA OR FORMULA
+    (3) FORMULA -> . FORMULA AND FORMULA
+    (4) FORMULA -> . NOT FORMULA
+    (5) FORMULA -> . NOT TERM
+    (6) FORMULA -> . LPAREN FORMULA RPAREN
+    (7) FORMULA -> . TERM
+    (8) TERM -> . ID LPAREN TERMLIST RPAREN
+    (9) TERM -> . ID
+
+    NOT             shift and go to state 4
+    LPAREN          shift and go to state 3
+    ID              shift and go to state 2
+
+    FORMULA                        shift and go to state 16
+    TERM                           shift and go to state 1
+
+state 11
+
+    (1) FORMULA -> FORMULA IMPLIES . FORMULA
+    (1) FORMULA -> . FORMULA IMPLIES FORMULA
+    (2) FORMULA -> . FORMULA OR FORMULA
+    (3) FORMULA -> . FORMULA AND FORMULA
+    (4) FORMULA -> . NOT FORMULA
+    (5) FORMULA -> . NOT TERM
+    (6) FORMULA -> . LPAREN FORMULA RPAREN
+    (7) FORMULA -> . TERM
+    (8) TERM -> . ID LPAREN TERMLIST RPAREN
+    (9) TERM -> . ID
+
+    NOT             shift and go to state 4
+    LPAREN          shift and go to state 3
+    ID              shift and go to state 2
+
+    FORMULA                        shift and go to state 17
+    TERM                           shift and go to state 1
+
+state 12
+
+    (2) FORMULA -> FORMULA OR . FORMULA
+    (1) FORMULA -> . FORMULA IMPLIES FORMULA
+    (2) FORMULA -> . FORMULA OR FORMULA
+    (3) FORMULA -> . FORMULA AND FORMULA
+    (4) FORMULA -> . NOT FORMULA
+    (5) FORMULA -> . NOT TERM
+    (6) FORMULA -> . LPAREN FORMULA RPAREN
+    (7) FORMULA -> . TERM
+    (8) TERM -> . ID LPAREN TERMLIST RPAREN
+    (9) TERM -> . ID
+
+    NOT             shift and go to state 4
+    LPAREN          shift and go to state 3
+    ID              shift and go to state 2
+
+    FORMULA                        shift and go to state 18
+    TERM                           shift and go to state 1
+
+state 13
+
+    (8) TERM -> ID LPAREN TERMLIST . RPAREN
+
+    RPAREN          shift and go to state 19
+
+
+state 14
+
+    (10) TERMLIST -> TERM . COMMA TERMLIST
+    (11) TERMLIST -> TERM .
+
+    COMMA           shift and go to state 20
+    RPAREN          reduce using rule 11 (TERMLIST -> TERM .)
+
+
+state 15
+
+    (6) FORMULA -> LPAREN FORMULA RPAREN .
+
+    RPAREN          reduce using rule 6 (FORMULA -> LPAREN FORMULA RPAREN .)
+    IMPLIES         reduce using rule 6 (FORMULA -> LPAREN FORMULA RPAREN .)
+    OR              reduce using rule 6 (FORMULA -> LPAREN FORMULA RPAREN .)
+    AND             reduce using rule 6 (FORMULA -> LPAREN FORMULA RPAREN .)
+    $end            reduce using rule 6 (FORMULA -> LPAREN FORMULA RPAREN .)
+
+
+state 16
+
+    (3) FORMULA -> FORMULA AND FORMULA .
+    (1) FORMULA -> FORMULA . IMPLIES FORMULA
+    (2) FORMULA -> FORMULA . OR FORMULA
+    (3) FORMULA -> FORMULA . AND FORMULA
+
+    RPAREN          reduce using rule 3 (FORMULA -> FORMULA AND FORMULA .)
+    IMPLIES         reduce using rule 3 (FORMULA -> FORMULA AND FORMULA .)
+    OR              reduce using rule 3 (FORMULA -> FORMULA AND FORMULA .)
+    AND             reduce using rule 3 (FORMULA -> FORMULA AND FORMULA .)
+    $end            reduce using rule 3 (FORMULA -> FORMULA AND FORMULA .)
+
+  ! IMPLIES         [ shift and go to state 11 ]
+  ! OR              [ shift and go to state 12 ]
+  ! AND             [ shift and go to state 10 ]
+
+
+state 17
+
+    (1) FORMULA -> FORMULA IMPLIES FORMULA .
+    (1) FORMULA -> FORMULA . IMPLIES FORMULA
+    (2) FORMULA -> FORMULA . OR FORMULA
+    (3) FORMULA -> FORMULA . AND FORMULA
+
+    RPAREN          reduce using rule 1 (FORMULA -> FORMULA IMPLIES FORMULA .)
+    $end            reduce using rule 1 (FORMULA -> FORMULA IMPLIES FORMULA .)
+    IMPLIES         shift and go to state 11
+    OR              shift and go to state 12
+    AND             shift and go to state 10
+
+  ! IMPLIES         [ reduce using rule 1 (FORMULA -> FORMULA IMPLIES FORMULA .) ]
+  ! OR              [ reduce using rule 1 (FORMULA -> FORMULA IMPLIES FORMULA .) ]
+  ! AND             [ reduce using rule 1 (FORMULA -> FORMULA IMPLIES FORMULA .) ]
+
+
+state 18
+
+    (2) FORMULA -> FORMULA OR FORMULA .
+    (1) FORMULA -> FORMULA . IMPLIES FORMULA
+    (2) FORMULA -> FORMULA . OR FORMULA
+    (3) FORMULA -> FORMULA . AND FORMULA
+
+    RPAREN          reduce using rule 2 (FORMULA -> FORMULA OR FORMULA .)
+    IMPLIES         reduce using rule 2 (FORMULA -> FORMULA OR FORMULA .)
+    OR              reduce using rule 2 (FORMULA -> FORMULA OR FORMULA .)
+    $end            reduce using rule 2 (FORMULA -> FORMULA OR FORMULA .)
+    AND             shift and go to state 10
+
+  ! AND             [ reduce using rule 2 (FORMULA -> FORMULA OR FORMULA .) ]
+  ! IMPLIES         [ shift and go to state 11 ]
+  ! OR              [ shift and go to state 12 ]
+
+
+state 19
+
+    (8) TERM -> ID LPAREN TERMLIST RPAREN .
+
+    IMPLIES         reduce using rule 8 (TERM -> ID LPAREN TERMLIST RPAREN .)
+    OR              reduce using rule 8 (TERM -> ID LPAREN TERMLIST RPAREN .)
+    AND             reduce using rule 8 (TERM -> ID LPAREN TERMLIST RPAREN .)
+    $end            reduce using rule 8 (TERM -> ID LPAREN TERMLIST RPAREN .)
+    RPAREN          reduce using rule 8 (TERM -> ID LPAREN TERMLIST RPAREN .)
+    COMMA           reduce using rule 8 (TERM -> ID LPAREN TERMLIST RPAREN .)
+
+
+state 20
+
+    (10) TERMLIST -> TERM COMMA . TERMLIST
+    (10) TERMLIST -> . TERM COMMA TERMLIST
+    (11) TERMLIST -> . TERM
+    (8) TERM -> . ID LPAREN TERMLIST RPAREN
+    (9) TERM -> . ID
+
+    ID              shift and go to state 2
+
+    TERM                           shift and go to state 14
+    TERMLIST                       shift and go to state 21
+
+state 21
+
+    (10) TERMLIST -> TERM COMMA TERMLIST .
+
+    RPAREN          reduce using rule 10 (TERMLIST -> TERM COMMA TERMLIST .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: reduce/reduce conflict in state 8 resolved using rule (FORMULA -> NOT TERM)
+WARNING: rejected rule (FORMULA -> TERM) in state 8
